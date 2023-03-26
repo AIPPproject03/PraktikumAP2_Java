@@ -281,36 +281,36 @@ public class SoalGabung {
 	 }
 //--------------------ALGORITMA RABIN KARP-----------------------//
 	 static void RabinKarp(String pattern, String txt) {
-		 int m = pattern.length(); // Panjang Pattern 
-		 int n = txt.length();     // Panjang Text Utama
-		 int i, j;                 // Inisialisasi Variabel i dan j
-		 int hash_p = 0;           // Nilai Hash Untuk Pattern
-		 int hash_t = 0;           // Nilai Hash Untuk Teks Utama
-		 int h = 1;                // Modulisasi Hash
-		 int ASCII = 256;          // Jumlah Karakter Pada ASCII
-		 int prime = 101;          // Bilangan Prima Untuk Perhitungan Modulisasi
+		 int pat_long = pattern.length(); // Panjang Pattern 
+		 int txt_long = txt.length();     // Panjang Text Utama
+		 int i, j;                        // Inisialisasi Variabel i dan j
+		 int hash_p = 0;                  // Nilai Hash Untuk Pattern
+		 int hash_t = 0;                  // Nilai Hash Untuk Teks Utama
+		 int h = 1;                       // Modulisasi Hash
+		 int ASCII = 256;                 // Jumlah Karakter Pada ASCII
+		 int prime = 101;                 // Bilangan Prima Untuk Perhitungan Modulisasi
 		 
 		 // Hitung Modulisasi h
-		 for (i = 0; i < m - 1; i++) {
+		 for (i = 0; i < pat_long - 1; i++) {
 		 h = (h * ASCII) % prime;
 		 }
 		// Hitung Nilai Hash Untuk Pattern And Text
-		 for (i = 0; i < m; i++) {
+		 for (i = 0; i < pat_long; i++) {
 		 hash_p = (ASCII * hash_p + pattern.charAt(i)) % prime;
 		 hash_t = (ASCII * hash_t + txt.charAt(i)) % prime;
 		 }
 		 // Cari Kecocokan
-		 for (i = 0; i <= n - m; i++) {
+		 for (i = 0; i <= txt_long - pat_long; i++) {
 		    if (hash_p == hash_t) {
-		      for (j = 0; j < m; j++) {
+		      for (j = 0; j < pat_long; j++) {
 		         if (txt.charAt(i + j) != pattern.charAt(j))
 		         break;
 		        }
-		         if (j == m)
+		         if (j == pat_long)
 		           System.out.println(" Pattern ditemukan pada posisi : " + i);
 		        }
-		         if (i < n - m) {
-		           hash_t = (ASCII * (hash_t - txt.charAt(i) * h) + txt.charAt(i + m)) % prime;
+		         if (i < txt_long - pat_long) {
+		           hash_t = (ASCII * (hash_t - txt.charAt(i) * h) + txt.charAt(i + pat_long)) % prime;
 		         if (hash_t < 0)
 	               hash_t = (hash_t + prime);
 		        }
