@@ -55,63 +55,65 @@ public class Responsi_1 {
 
 //=================================( SOAL 2 )===================================//
 	public static void printPath(int[] prev, int start, int end) {
-	    if (prev[end] == -1) {
-	        System.out.print(end + " --> ");
-	        return;
-	    }
-	    printPath(prev, start, prev[end]);
-	    System.out.print(end + " --> ");
-	}
-
-	public static void dijkstra(int start, int end) {
-	    int graph[][] = new int[][] {
-	        /*(0)*/{0,4,0,0,0,0,0,8,0},
-	        /*(1)*/{4,0,8,0,0,0,0,11,0},
-	        /*(2)*/{0,8,0,7,0,4,0,0,2},
-	        /*(3)*/{0,0,7,0,9,14,0,0,0},
-	        /*(4)*/{0,0,0,9,0,10,0,0,0},
-	        /*(5)*/{0,0,4,14,10,0,2,0,0},
-	        /*(6)*/{0,0,0,0,0,2,0,1,6},
-	        /*(7)*/{8,11,0,0,0,0,1,0,7},
-	        /*(8)*/{0,0,2,0,0,0,6,7,0}
-	    };
-	    int n = graph.length;
-	    int[] distances = new int[n];
-	    int[] prev = new int[n];
-	    boolean[] visited = new boolean[n];
-
-	    Arrays.fill(distances, Integer.MAX_VALUE);
-	    Arrays.fill(prev, -1);
-	    distances[start] = 0;
-
-	    for (int i = 0; i < n - 1; i++) {
-	        int minDist = Integer.MAX_VALUE;
-	        int minNode = -1;
-
-	        for (int j = 0; j < n; j++) {
-	            if (!visited[j] && distances[j] < minDist) {
-	                minDist = distances[j];
-	                minNode = j;
-	            }
-	        }
-
-	        visited[minNode] = true;
-
-	        for (int j = 0; j < n; j++) {
-	            if (graph[minNode][j] > 0) {
-	                int newDist = distances[minNode] + graph[minNode][j];
-	                if (newDist < distances[j]) {
-	                    distances[j] = newDist;
-	                    prev[j] = minNode;
-	                }
-	            }
-	        }
-	    }
-	    System.out.print("Jalur Terpendek Dari " + start + " Ke " + end + " : ");
-	    printPath(prev, start, end);
-	    System.out.println("FINISH");
-	    System.out.println("\nJarak terpendek : " + distances[end]);
-	}
+        if (prev[end] == -1) {
+            System.out.print(end + " ");
+            return;
+        }
+        printPath(prev, start, prev[end]);
+        System.out.print("--> " + end + " ");
+    }
+    
+    public static void dijkstra(int start) {
+        int[][] graph = new int[][] {
+            /*0*/{0,4,0,0,0,0,0,8,0},
+            /*1*/{4,0,8,0,0,0,0,11,0},
+            /*2*/{0,8,0,7,0,4,0,0,2},
+            /*3*/{0,0,7,0,9,14,0,0,0},
+            /*4*/{0,0,0,9,0,10,0,0,0},
+            /*5*/{0,0,4,14,10,0,2,0,0},
+            /*6*/{0,0,0,0,0,2,0,1,6},
+            /*7*/{8,11,0,0,0,0,1,0,7},
+            /*8*/{0,0,2,0,0,0,6,7,0}
+        };
+        int n = graph.length;
+        int[] distances = new int[n];
+        int[] prev = new int[n];
+        boolean[] visited = new boolean[n];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        Arrays.fill(prev, -1);
+        distances[start] = 0;
+        
+        for (int i = 0; i < n - 1; i++) {
+            int minDist = Integer.MAX_VALUE;
+            int minNode = -1;
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && distances[j] < minDist) {
+                    minDist = distances[j];
+                    minNode = j;
+                }
+            }
+            visited[minNode] = true;
+            
+            for (int j = 0; j < n; j++) {
+                int edgeWeight = graph[minNode][j];
+                if (edgeWeight > 0) {
+                    int newDist = distances[minNode] + edgeWeight;
+                    if (newDist < distances[j]) {
+                        distances[j] = newDist;
+                        prev[j] = minNode;
+                    }
+                }
+            }
+        }
+        System.out.println();
+        for (int i = 0; i < n; i++) {
+            if (i != start) {
+                System.out.print(" Jalur terpendek dari " + start + " ke " + i + ": ");
+                printPath(prev, start, i);
+                System.out.println(" Dengan Jarak = " + distances[i]);
+            }
+        }
+    }
 	
 //=================================( MAIN MENU )===================================//
     public static void main(String[] args) {
@@ -157,9 +159,7 @@ public class Responsi_1 {
             case 2:
             System.out.print(" Titik Start Anda  (0,1,2,3,4,5,6,7,8) : ");
             int start = input.nextInt();
-            System.out.print(" Titik Finish Anda (0,1,2,3,4,5,6,7,8) : ");
-            int finish = input.nextInt();
-            dijkstra(start, finish);
+            dijkstra(start);
             break;
             case 3:
             break;
